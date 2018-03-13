@@ -3,6 +3,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class UserController {
 
@@ -13,15 +16,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/", method = RequestMethod.GET)
-    public Response getAllUsers(@RequestParam(value="payload") String payload) {
+    public List<User> getAllUsers(@RequestParam(value="payload") String payload) {
         // get all users
-        return new Response();
+        return new ArrayList<User>();
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public Response getUser(@RequestParam(value="payload") String payload) {
+    public User getUser(@RequestParam(value="payload") String payload) {
         // get specific user
-        return new Response();
+        return new User();
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)

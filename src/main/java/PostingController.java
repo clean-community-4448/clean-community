@@ -3,6 +3,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class PostingController {
 
@@ -13,20 +16,20 @@ public class PostingController {
     }
 
     @RequestMapping(value = "/postings/", method = RequestMethod.GET)
-    public Response getAllPostings(@RequestParam(value="payload") String payload) {
+    public List<Posting> getAllPostings(@RequestParam(value="payload") String payload) {
         // get all users
-        return new Response();
+        return new ArrayList<Posting>();
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.GET)
-    public Response getPosting(@RequestParam(value="payload") String payload) {
+    public Posting getPosting(@RequestParam(value="payload") String payload) {
         // get specific posting
-        return new Response();
+        return new Posting();
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.PUT)
     public Response updatePosting(@RequestParam(value="payload") String payload) {
-        // get all users
+        // update specific posting
         return new Response();
     }
 
