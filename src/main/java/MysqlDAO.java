@@ -3,8 +3,6 @@ import java.util.*;
 
 abstract class MysqlDAO {
 
-	private String tableName;
-
 	// Database credentials
 	private final String USER = "root";
 	private final String PASS = "password";
@@ -60,6 +58,50 @@ abstract class MysqlDAO {
 		}
 
 		return getList;
+	}
+
+	protected Boolean updateQuery(String sql_query) {
+
+		Connection conn = null;
+		Statement stmt = null;
+		Boolean return_code = true;
+
+		try {
+			// Register jdbc driver
+			Class.forName("com.mysql.jdbc.Driver");
+
+			// Create connection to database
+			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+			// Execute query
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql_query);
+
+			// Cleanup
+			stmt.close();
+			conn.close();
+		} catch(SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+			return_code = false;
+		} catch(Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// Finally block used to close resources
+			try{
+				if(stmt!=null)
+					stmt.close();
+			} catch(SQLException se2) {
+			} try {
+				if(conn != null)
+					conn.close();
+			} catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
+
+		return return_code;
 	}
 
 	private List<HashMap<String,Object>> resultSetToList(ResultSet rs) throws SQLException {
