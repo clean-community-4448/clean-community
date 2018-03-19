@@ -20,6 +20,9 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+
     compile 'org.springframework.boot:spring-boot-starter-web'
 
     testCompile 'junit:junit:4.12'

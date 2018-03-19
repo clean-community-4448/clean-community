@@ -1,10 +1,8 @@
-package code.jdbc;
-
 import java.sql.*;
+import java.util.*;
 
 abstract class MysqlDAO {
 
-	static final String JDBC_DRIVER = "com.mysql.jdbc.driver";
 	private String tableName;
 
 	// Database credentials
@@ -12,17 +10,18 @@ abstract class MysqlDAO {
 	private final String PASS = "password";
 
 	// jdbc:mysql://<server_name>/<database>
-	private final String serverName = "localhost";
-	private final String dbName = "cleancommunity";
-	private final String DB_URL = "jdbc:mysql://" + serverName + "/" + dbName;
+	private final String SERVER_NAME = "localhost";
+	private final String DB_NAME = "cleancommunity";
+	private final String DB_URL = "jdbc:mysql://" + SERVER_NAME + "/" + DB_NAME;
 
-	public Connection conn = null;
+	protected List<HashMap<String,Object>> getQuery(String sql_query) {
 
-	// TODO: Return the list of ResultSet
-	protected boolean submitQuery() {
+		List<HashMap<String,Object>> getList = new ArrayList<HashMap<String,Object>>();
 		Connection conn = null;
 		Statement stmt = null;
-		try{
+		ResultSet rs;
+
+		try {
 			// Register jdbc driver
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -31,46 +30,52 @@ abstract class MysqlDAO {
 
 			// Execute query
 			stmt = conn.createStatement();
-			String sql;
-			sql = "SELECT id, name FROM example";
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql_query);
 
 			// Iterate through returns rows and print them
-			while(rs.next()){
-				//Retrieve by column name
-				int id  = rs.getInt("id");
-				String last = rs.getString("name");
-
-				//Display values
-				System.out.println("ID: " + id);
-				System.out.println("Last: " + last);
-			}
+			getList = resultSetToList(rs);
 
 			// Cleanup
 			rs.close();
 			stmt.close();
 			conn.close();
-		}catch(SQLException se){
-			//Handle errors for JDBC
+		} catch(SQLException se) {
+			// Handle errors for JDBC
 			se.printStackTrace();
-		}catch(Exception e){
-			//Handle errors for Class.forName
+		} catch(Exception e) {
+			// Handle errors for Class.forName
 			e.printStackTrace();
-		}finally{
-			//finally block used to close resources
+		} finally {
+			// Finally block used to close resources
 			try{
 				if(stmt!=null)
 					stmt.close();
-			}catch(SQLException se2){
-			}// nothing we can do
-			try{
-				if(conn!=null)
+			} catch(SQLException se2) {
+			} try {
+				if(conn != null)
 					conn.close();
-			}catch(SQLException se){
+			} catch(SQLException se) {
 				se.printStackTrace();
 			}
 		}
-		return true;
+
+		return getList;
+	}
+
+	private List<HashMap<String,Object>> resultSetToList(ResultSet rs) throws SQLException {
+		ResultSetMetaData md = rs.getMetaData();
+		int columns = md.getColumnCount();
+		List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+
+		while (rs.next()) {
+			HashMap<String,Object> row = new HashMap<String, Object>(columns);
+			for(int i=1; i<=columns; ++i) {
+				row.put(md.getColumnName(i),rs.getObject(i));
+			}
+			list.add(row);
+		}
+
+		return list;
 	}
 
 }

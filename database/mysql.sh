@@ -1,1 +1,1 @@
-mysql -h localhost -P 3306 --protocol=tcp -uroot -ppassword
+mysql -A -h localhost -P 3306 --protocol=tcp -uroot -ppassword cleancommunity
