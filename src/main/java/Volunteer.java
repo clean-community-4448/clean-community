@@ -13,22 +13,21 @@ public class Volunteer extends User{
         projectsInProgress = 0;
         projectsPosted = 0;
     }
-    public Volunteer(String user, String pass, int id){
+    public Volunteer(String user, String pass){
         this.username = user;
         this.password = pass;
-        volunteerId = id;
         projectsCompleted = 0;
         projectsInProgress = 0;
         projectsPosted = 0;
     }
     public boolean addPosting(Posting post){
         List<String> postingInfo = new ArrayList<String>();
-        postingInfo.add(post.getId().toString());
+        // postingInfo.add(post.getId().toString());
         postingInfo.add(post.getTitle().toString());
         postingInfo.add(post.getDescription().toString());
         postingInfo.add(post.getAssociatedUsername().toString());
-        postingInfo.add(post.getAccepted().toString());
-        postingInfo.add(post.getCompleted().toString());
+        // postingInfo.add(post.getAccepted().toString());
+        // postingInfo.add(post.getCompleted().toString());
         postingInfo.add(post.getLocation().toString());
 
         String query = "INSERT INTO postings (id, title, description, associatedUsername, accepted, completed, location) VALUES (";
