@@ -24,7 +24,7 @@ public abstract class User {
             posting.setId((int)row.get("id"));
             posting.setTitle(row.get("title").toString());
             posting.setDescription(row.get("description").toString());
-            posting.setAssociated(row.get("associated").toString());
+            // posting.setAssociated(row.get("associated").toString());
             posting.setAccepted((Boolean)row.get("accepted"));
             posting.setCompleted((Boolean)row.get("completed"));
             posting.setLocation(row.get("location").toString());

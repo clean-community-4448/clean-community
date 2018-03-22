@@ -35,7 +35,7 @@ public class UserController {
         // get specific user
 //        User user = userFactory.getUserByRequest(request);
 //        return userDAO.getUser(user.getUsername());
-        return new User();
+        return new Volunteer();
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)

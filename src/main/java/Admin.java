@@ -2,8 +2,7 @@ import java.util.*;
 public class Admin extends User{
     private int adminId;
     public Admin(){
-        this.username = "";
-        this.password = "";
+        super("", "");
         adminId = -1;
     }
     public Admin(String user, String pass, int id){
@@ -28,8 +27,8 @@ public class Admin extends User{
     public boolean removeUser(User user){
         MysqlDAO mysql = new MysqlUserDAO();
         List<HashMap<String, Object>> list;
-        String query = "DELETE FROM users WHERE username = " + post.getUsername() + ";";
-        list = mysql.getQuery(query);
+        // String query = "DELETE FROM users WHERE username = " + post.getUsername() + ";";
+        // list = mysql.getQuery(query);
         return true;
     }
     public int getAdminId(){

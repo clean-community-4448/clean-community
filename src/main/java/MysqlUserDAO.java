@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.*;
 
-public class MysqlUserDAO extends MysqlDAO {
+public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 
 	private static final String TABLE_NAME = "users";
 
@@ -20,19 +20,19 @@ public class MysqlUserDAO extends MysqlDAO {
 		}
 	}
 
-	public User getUser(String userName) {
+	public User getUser(User user) {
 
-		String sql_query = "SELECT * FROM users WHERE userName=\"" + userName + "\"";
+		String sql_query = "SELECT * FROM users WHERE userName=\"" + user.getUsername() + "\"";
 		HashMap<String, Object> row = this.getQuery(sql_query).get(0);
 
 		// TODO: Create the actual user object like a man
-		return new User();
+		return new Volunteer();
 	}
 
-	public Boolean addUser(String userName) {
+	public Boolean addUser(User user) {
 
 		String sql_query = String.format("INSERT INTO %s (username) values (\"%s\")",
-						TABLE_NAME, userName);
+						TABLE_NAME, user.getUsername());
 
 		// Returns true if query is valid and username is unique, otherwise false
 		return this.updateQuery(sql_query);
@@ -51,13 +51,13 @@ public class MysqlUserDAO extends MysqlDAO {
 		MysqlUserDAO mysql = new MysqlUserDAO();
 
 		// Add a user
-		mysql.addUser("elitedarklord");
+		mysql.addUser(new Volunteer("Darfboy", "supersecret"));
 
 		// Get list of users
 		mysql.getUsers();
 
 		// Get a user
-		mysql.getUser("t2nerb");
+		mysql.getUser(new Admin());
 
 		// Delete a user
 		mysql.deleteUser("elitedarklord");
