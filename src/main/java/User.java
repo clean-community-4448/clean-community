@@ -1,16 +1,13 @@
 import java.sql.SQLException;
 import java.util.*;
 public abstract class User {
-    protected String username;
-    protected String password;
-    public User(){
-        username = "";
-        password = "";
-    }
-    public User(String user, String pass){
-        username = user;
-        password = pass;
-    }
+
+    public int userId;
+    private String username;
+    private String password;
+    private String firstName;
+    private String lastName;
+
     public List<Posting> getAllPostings(){
         MysqlDAO mysql = new MysqlUserDAO();
         List<Posting> posts = new ArrayList<Posting>();
@@ -18,7 +15,7 @@ public abstract class User {
         list = mysql.getQuery("SELECT * FROM postings;");
         for (HashMap<String, Object> row: list){
             Posting posting = new Posting();
-            Admin u1= new Admin();
+            // Admin u1= new Admin();
 
             //Currently creating it based on posting in class diagram
             posting.setId((int)row.get("id"));
@@ -44,6 +41,24 @@ public abstract class User {
     }
     public void setPassword(String pass){
         password = pass;
+    }
+    public void setFirstName(String fname) {
+        firstName = fname;
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setLastName(String lname) {
+        lastName = lname;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setId(int id) {
+        userId = id;
+    }
+    public int getId() {
+        return userId;
     }
     public String getUsername(){
         return username;

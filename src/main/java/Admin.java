@@ -1,14 +1,16 @@
 import java.util.*;
 public class Admin extends User{
-    private int adminId;
+    protected int id;
+
     public Admin(){
-        super("", "");
-        adminId = -1;
+        // super("", "");
     }
-    public Admin(String user, String pass, int id){
-        this.username = user;
-        this.password = pass;
-        adminId = id;
+    public Admin(String uname, String pass, String fname, String lname, int id){
+        setUsername(uname);
+        setPassword(pass);
+        setFirstName(fname);
+        setLastName(lname);
+        setId(id);
     }
     public boolean removePosting(Posting post){
         MysqlDAO mysql = new MysqlUserDAO();
@@ -30,11 +32,5 @@ public class Admin extends User{
         // String query = "DELETE FROM users WHERE username = " + post.getUsername() + ";";
         // list = mysql.getQuery(query);
         return true;
-    }
-    public int getAdminId(){
-        return adminId;
-    }
-    public void setAdminId(int id){
-        adminId = id;
     }
 }
