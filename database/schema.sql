@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS cleancommunity;
 USE cleancommunity;
 
 CREATE TABLE IF NOT EXISTS users (

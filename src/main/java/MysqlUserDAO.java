@@ -14,11 +14,8 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		String fname = row.get("firstname").toString();
 		String lname = row.get("lastname").toString();
 
-		if (isAdmin) {
-			return new Admin(username, password, fname, lname, userId);
-		} else {
-			return new Volunteer(username, password, fname, lname, userId);
-		}
+		User user = UserFactory.createUser(username, password, fname, lname, userId, isAdmin);
+		return user;
 	}
 
 	public List<User> getUsers() {
