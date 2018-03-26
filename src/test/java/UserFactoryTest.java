@@ -24,7 +24,6 @@ public class UserFactoryTest {
 
 		System.out.println(admin instanceof Admin);
 		assertThat("admin should be instance of Admin", admin, instanceOf(Admin.class));
-		assertThat("volunteer should be instance of volunteer", volunteer, instanceOf(Admin.class));
-
+		assertThat("volunteer should be instance of volunteer", volunteer, instanceOf(Volunteer.class));
 	}
 }

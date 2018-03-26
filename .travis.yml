@@ -1,2 +1,9 @@
 language: java
 jdk: oraclejdk8
+services:
+  - mysql
+before_install:
+  - mysqladmin -u root password password
+  - mysql -uroot -ppassword < database/schema.sql
+script:
+  - ./gradlew test --stacktrace
