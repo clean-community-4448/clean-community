@@ -1,34 +1,39 @@
 import java.util.*;
 public class Volunteer extends User{
+
     private int volunteerId;
     //Additional attributes here, to keep track of user statistics
     private int projectsCompleted;
     private int projectsInProgress;
     private int projectsPosted;
+    protected int id;
+
     public Volunteer(){
-        this.username = "";
-        this.password = "";
+        setUsername("");
+        setPassword("");
         volunteerId = -1;
         projectsCompleted = 0;
         projectsInProgress = 0;
         projectsPosted = 0;
     }
-    public Volunteer(String user, String pass, int id){
-        this.username = user;
-        this.password = pass;
-        volunteerId = id;
+    public Volunteer(String user, String pass, String fname, String lname, int id){
+        setUsername(user);
+        setPassword(pass);
+        setFirstName(fname);
+        setLastName(lname);
+        setId(id);
         projectsCompleted = 0;
         projectsInProgress = 0;
         projectsPosted = 0;
     }
     public boolean addPosting(Posting post){
         List<String> postingInfo = new ArrayList<String>();
-        postingInfo.add(post.getId().toString());
+        // postingInfo.add(post.getId().toString());
         postingInfo.add(post.getTitle().toString());
         postingInfo.add(post.getDescription().toString());
         postingInfo.add(post.getAssociatedUsername().toString());
-        postingInfo.add(post.getAccepted().toString());
-        postingInfo.add(post.getCompleted().toString());
+        // postingInfo.add(post.getAccepted().toString());
+        // postingInfo.add(post.getCompleted().toString());
         postingInfo.add(post.getLocation().toString());
 
         String query = "INSERT INTO postings (id, title, description, associatedUsername, accepted, completed, location) VALUES (";
@@ -70,11 +75,5 @@ public class Volunteer extends User{
     public List<Volunteer> getOverallStatistics(){
         List<Volunteer> list = new ArrayList<Volunteer>();
         return list;
-    }
-    public int getVolunteerId(){
-        return volunteerId;
-    }
-    public void setVolunteerId (int id){
-        volunteerId = id;
     }
 }
