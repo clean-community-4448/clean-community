@@ -1,3 +1,5 @@
+package com.cleancommunity.user;
+
 public class UserFactory {
     private int numInstancesMade;   // Why tho
 

@@ -1,3 +1,5 @@
+package com.cleancommunity.posting;
+
 public class Posting {
 
     private int id;
@@ -7,6 +9,7 @@ public class Posting {
     private boolean accepted;
     private boolean completed;
     private String location;
+    private boolean flagged;
 
 
     Posting(String request, int id) {
@@ -26,7 +29,7 @@ public class Posting {
     Posting() {
 
         // This constructor should be removed after development.
-        // It requires the user update the id at a later date ...
+        // It requires the com.cleancommunity.user update the id at a later date ...
 
         this(-1);
     }
@@ -34,7 +37,7 @@ public class Posting {
 
     public boolean isValid() {
 
-        // What determines if a posting is valid?
+        // What determines if a com.cleancommunity.posting is valid?
 
         return true;
     }
@@ -67,6 +70,10 @@ public class Posting {
         return location;
     }
 
+    public boolean isFlagged() {
+        return flagged;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -95,6 +102,9 @@ public class Posting {
         this.location = location;
     }
 
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
 }
 
 

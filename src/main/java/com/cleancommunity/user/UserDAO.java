@@ -1,3 +1,5 @@
+package com.cleancommunity.user;
+
 import java.util.*;
 
 public interface UserDAO {

@@ -1,5 +1,9 @@
+package com.cleancommunity.user;
+
+import com.cleancommunity.posting.Posting;
+
 import java.util.*;
-public class Admin extends User{
+public class Admin extends User {
     protected int id;
 
     public Admin(){
@@ -13,21 +17,14 @@ public class Admin extends User{
         setId(id);
     }
     public boolean removePosting(Posting post){
-        MysqlDAO mysql = new MysqlUserDAO();
-        List<HashMap<String, Object>> list;
-        String query = "DELETE FROM postings WHERE id = " + post.getId() + ";";
-        list = mysql.getQuery(query);
-        return true;
+        return User.postingDAO.deletePosting(post);
     }
     public boolean allowPosting(Posting post){
-        MysqlDAO mysql = new MysqlUserDAO();
-        List<HashMap<String, Object>> list;
-        String query = "UPDATE postings SET flagged = '0' WHERE id = " + post.getId() + ";";
-        list = mysql.getQuery(query);
-        return true;
+        post.setFlagged(false);
+        return User.postingDAO.updatePosting(post);
     }
     public boolean removeUser(User user){
-        MysqlDAO mysql = new MysqlUserDAO();
+        UserDAO mysql = new MysqlUserDAO();
         List<HashMap<String, Object>> list;
         // String query = "DELETE FROM users WHERE username = " + post.getUsername() + ";";
         // list = mysql.getQuery(query);
