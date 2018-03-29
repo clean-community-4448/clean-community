@@ -1,3 +1,6 @@
+package com.cleancommunity.posting;
+
+import com.cleancommunity.misc.MysqlDAO;
 
 import java.util.*;
 
@@ -24,7 +27,7 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 				TABLE_NAME, postingId);
 		HashMap<String, Object> postingElements = this.getQuery(sql_query).get(0);
 
-		// TODO: Create the posting here
+		// TODO: Create the com.cleancommunity.posting here
 		return new Posting();
 	}
 

@@ -1,3 +1,5 @@
+package com.cleancommunity.posting;
+
 public class Posting {
 
     private int id;
@@ -26,7 +28,7 @@ public class Posting {
     Posting() {
 
         // This constructor should be removed after development.
-        // It requires the user update the id at a later date ...
+        // It requires the com.cleancommunity.user update the id at a later date ...
 
         this(-1);
     }
@@ -34,7 +36,7 @@ public class Posting {
 
     public boolean isValid() {
 
-        // What determines if a posting is valid?
+        // What determines if a com.cleancommunity.posting is valid?
 
         return true;
     }

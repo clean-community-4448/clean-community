@@ -1,8 +1,13 @@
+package com.cleancommunity.user;
+
+import com.cleancommunity.posting.Posting;
+import com.cleancommunity.misc.MysqlDAO;
+
 import java.util.*;
 public class Volunteer extends User{
 
     private int volunteerId;
-    //Additional attributes here, to keep track of user statistics
+    //Additional attributes here, to keep track of com.cleancommunity.user statistics
     private int projectsCompleted;
     private int projectsInProgress;
     private int projectsPosted;

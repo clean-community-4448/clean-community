@@ -1,3 +1,5 @@
+package com.cleancommunity.posting;
+
 public class PostingFactory
 {
     private int numInstancesMade;

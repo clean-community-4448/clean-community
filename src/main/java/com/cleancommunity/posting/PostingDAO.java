@@ -1,3 +1,5 @@
+package com.cleancommunity.posting;
+
 import java.util.List;
 
 public interface PostingDAO {

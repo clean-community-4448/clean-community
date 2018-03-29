@@ -1,7 +1,9 @@
+package com.cleancommunity.misc;
+
 import java.sql.*;
 import java.util.*;
 
-abstract class MysqlDAO {
+public abstract class MysqlDAO {
 
 	// Database credentials
 	private final String USER = "root";

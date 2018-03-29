@@ -1,3 +1,5 @@
+package com.cleancommunity.misc;
+
 public class Response {
     private boolean success;
     private String message;

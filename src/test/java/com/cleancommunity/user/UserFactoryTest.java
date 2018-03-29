@@ -1,3 +1,5 @@
+package com.cleancommunity.user;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -23,7 +25,7 @@ public class UserFactoryTest {
 		User volunteer = UserFactory.createUser(username, password, fname, lname, id, false);
 
 		System.out.println(admin instanceof Admin);
-		assertThat("admin should be instance of Admin", admin, instanceOf(Admin.class));
+		assertThat("admin should be instance of com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin", admin, instanceOf(Admin.class));
 		assertThat("volunteer should be instance of volunteer", volunteer, instanceOf(Volunteer.class));
 	}
 }

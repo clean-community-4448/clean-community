@@ -1,3 +1,7 @@
+package com.cleancommunity.user;
+
+import com.cleancommunity.misc.MysqlDAO;
+
 import java.util.HashMap;
 import java.util.*;
 
@@ -25,7 +29,7 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		String sql_query = "SELECT * FROM " + TABLE_NAME;
 		list = this.getQuery(sql_query);
 
-		// TODO: Create the actual list of User objects
+		// TODO: Create the actual list of com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user objects
 		for (HashMap<String, Object> row : list) {
 			userList.add(createUserFromHashMap(row));
 		}
@@ -73,16 +77,16 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 
 		User darf = new Volunteer("Darfy", "supersecret","d", "f", 99);
 
-		// Add a user
+		// Add a com.cleancommunity.user
 		Boolean added = mysql.addUser(darf);
 		if (!added) {
 			System.err.println("Username conflict for " + darf.getUsername());
 		}
 
-		// Delete a user
+		// Delete a com.cleancommunity.user
 		Boolean deleted = mysql.deleteUser(darf);
 		if (!deleted) {
-			System.out.println("Ruh roh user doesn't exist");
+			System.out.println("Ruh roh com.cleancommunity.user doesn't exist");
 		}
 
 		// Get list of all users
@@ -95,7 +99,7 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 			System.out.println();
 		}
 
-		// Get a user by username
+		// Get a com.cleancommunity.user by username
 		User t2nerb = mysql.getUserByUsername("t2nerb");
 		if (t2nerb instanceof Admin) {
 			System.out.println(t2nerb.getUsername() + " has da power");

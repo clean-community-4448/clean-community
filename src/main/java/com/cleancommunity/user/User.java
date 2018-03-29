@@ -1,4 +1,8 @@
-import java.sql.SQLException;
+package com.cleancommunity.user;
+
+import com.cleancommunity.posting.Posting;
+import com.cleancommunity.misc.MysqlDAO;
+
 import java.util.*;
 public abstract class User {
 
@@ -15,13 +19,13 @@ public abstract class User {
         list = mysql.getQuery("SELECT * FROM postings;");
         for (HashMap<String, Object> row: list){
             Posting posting = new Posting();
-            // Admin u1= new Admin();
+            // com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin u1= new com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin();
 
-            //Currently creating it based on posting in class diagram
+            //Currently creating it based on com.cleancommunity.posting in class diagram
             posting.setId((int)row.get("id"));
             posting.setTitle(row.get("title").toString());
             posting.setDescription(row.get("description").toString());
-            // posting.setAssociated(row.get("associated").toString());
+            // com.cleancommunity.posting.setAssociated(row.get("associated").toString());
             posting.setAccepted((Boolean)row.get("accepted"));
             posting.setCompleted((Boolean)row.get("completed"));
             posting.setLocation(row.get("location").toString());
