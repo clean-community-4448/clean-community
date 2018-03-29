@@ -39,4 +39,15 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 
 		return this.updateQuery(sql_query);
 	}
+
+	public boolean updatePosting(Posting post) {
+		// TODO: Write updatePosting
+		return false;
+	}
+
+
+	public boolean deletePosting(Posting post) {
+		// TODO: Write deletePosting
+		return false;
+	}
 }

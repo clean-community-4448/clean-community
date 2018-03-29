@@ -7,7 +7,7 @@ import java.util.*;
 public class Volunteer extends User{
 
     private int volunteerId;
-    //Additional attributes here, to keep track of com.cleancommunity.user statistics
+    //Additional attributes here, to keep track of user statistics
     private int projectsCompleted;
     private int projectsInProgress;
     private int projectsPosted;
@@ -32,43 +32,32 @@ public class Volunteer extends User{
         projectsPosted = 0;
     }
     public boolean addPosting(Posting post){
-        List<String> postingInfo = new ArrayList<String>();
-        // postingInfo.add(post.getId().toString());
-        postingInfo.add(post.getTitle().toString());
-        postingInfo.add(post.getDescription().toString());
-        postingInfo.add(post.getAssociatedUsername().toString());
-        // postingInfo.add(post.getAccepted().toString());
-        // postingInfo.add(post.getCompleted().toString());
-        postingInfo.add(post.getLocation().toString());
-
-        String query = "INSERT INTO postings (id, title, description, associatedUsername, accepted, completed, location) VALUES (";
-        for (String info : postingInfo){
-            query = query + info + ",";
+        if (User.postingDAO.addPosting(post)) {
+            projectsPosted++;
+            // TODO: update using UserDAO
+            return true;
         }
-        query = query.substring(0, query.length()-1) + ");";
-
-        MysqlDAO mysql = new MysqlUserDAO();
-        List<HashMap<String, Object>> list;
-        list = mysql.getQuery(query);
-        projectsPosted++;
-        return true;
+        return false;
     }
     public boolean acceptPosting(Posting post){
-        MysqlDAO mysql = new MysqlUserDAO();
-        List<HashMap<String, Object>> list;
-        String query = "UPDATE postings SET accepted = '1' WHERE id = " + post.getId() + ";";
-        list = mysql.getQuery(query);
-        projectsInProgress++;
-        return true;
+        post.setAccepted(true);
+        if (User.postingDAO.updatePosting(post)) {
+            projectsInProgress++;
+            // TODO: update using UserDAO
+            return true;
+        }
+        return false;
     }
     public boolean completePosting(Posting post){
-        MysqlDAO mysql = new MysqlUserDAO();
-        List<HashMap<String, Object>> list;
-        String query = "UPDATE postings SET completed = '1' WHERE id = " + post.getId() + ";";
-        list = mysql.getQuery(query);
-        projectsInProgress--;
-        projectsCompleted++;
-        return true;
+        post.setCompleted(true);
+        if (User.postingDAO.updatePosting(post)) {
+            projectsInProgress--;
+            projectsCompleted++;
+            // TODO: update using UserDAO
+            return true;
+        }
+
+        return false;
     }
     public List<Integer> getVolunteerStatistics(){
         List<Integer> list = new ArrayList<Integer>();

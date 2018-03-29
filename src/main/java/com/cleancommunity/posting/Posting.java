@@ -9,6 +9,7 @@ public class Posting {
     private boolean accepted;
     private boolean completed;
     private String location;
+    private boolean flagged;
 
 
     Posting(String request, int id) {
@@ -69,6 +70,10 @@ public class Posting {
         return location;
     }
 
+    public boolean isFlagged() {
+        return flagged;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -97,6 +102,9 @@ public class Posting {
         this.location = location;
     }
 
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
 }
 
 

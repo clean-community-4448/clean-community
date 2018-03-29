@@ -7,5 +7,6 @@ public interface PostingDAO {
 	List<Posting> getPostings();
 	Posting getPosting(int postingId);
 	boolean addPosting(Posting post);
-
+	boolean updatePosting(Posting post);
+	boolean deletePosting(Posting post);
 }

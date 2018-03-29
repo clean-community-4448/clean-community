@@ -1,10 +1,14 @@
 package com.cleancommunity.user;
 
+import com.cleancommunity.posting.MysqlPostingDAO;
 import com.cleancommunity.posting.Posting;
 import com.cleancommunity.misc.MysqlDAO;
+import com.cleancommunity.posting.PostingDAO;
 
 import java.util.*;
 public abstract class User {
+
+    public static PostingDAO postingDAO = new MysqlPostingDAO();
 
     public int userId;
     private String username;
@@ -13,32 +17,11 @@ public abstract class User {
     private String lastName;
 
     public List<Posting> getAllPostings(){
-        MysqlDAO mysql = new MysqlUserDAO();
-        List<Posting> posts = new ArrayList<Posting>();
-        List<HashMap<String, Object>> list;
-        list = mysql.getQuery("SELECT * FROM postings;");
-        for (HashMap<String, Object> row: list){
-            Posting posting = new Posting();
-            // com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin u1= new com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin();
-
-            //Currently creating it based on com.cleancommunity.posting in class diagram
-            posting.setId((int)row.get("id"));
-            posting.setTitle(row.get("title").toString());
-            posting.setDescription(row.get("description").toString());
-            // com.cleancommunity.posting.setAssociated(row.get("associated").toString());
-            posting.setAccepted((Boolean)row.get("accepted"));
-            posting.setCompleted((Boolean)row.get("completed"));
-            posting.setLocation(row.get("location").toString());
-            posts.add(posting);
-
-        }
-        return posts;
+        return User.postingDAO.getPostings();
     }
     public boolean flagPosting(Posting posting){
-        MysqlDAO mysql = new MysqlUserDAO();
-        List<HashMap<String, Object>> list;
-        list = mysql.getQuery("UPDATE postings SET flagged = '1' WHERE id = " + posting.getId() + ";");
-        return true;
+        posting.setFlagged(true);
+        return User.postingDAO.updatePosting(posting);
     }
     public void setUsername(String user){
         username = user;
