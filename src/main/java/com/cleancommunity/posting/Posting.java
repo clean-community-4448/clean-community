@@ -17,21 +17,21 @@ public class Posting {
         // API needs to be defined
 
         this.id = id;
-
     }
 
-    Posting(int id) {
+    Posting(int id, String title, String description, String submitter, String location, Boolean accepted) {
 
-        this.id = id;
-
+        setTitle(title);
+        setDescription(description);
+        setAssociatedUsername(submitter);
+        setLocation(location);
+        setAccepted(accepted);
     }
 
     Posting() {
 
         // This constructor should be removed after development.
         // It requires the com.cleancommunity.user update the id at a later date ...
-
-        this(-1);
     }
 
 

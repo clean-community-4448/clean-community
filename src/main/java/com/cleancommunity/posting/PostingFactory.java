@@ -19,13 +19,13 @@ public class PostingFactory
         return posting;
     }
 
-    public Posting createPostingById(int id) {
-
-        Posting posting = new Posting(id);
-        numInstancesMade++;
-
-        return new Posting(id);
-    }
+    // public Posting createPostingById(int id) {
+    //
+    //     Posting posting = new Posting(id);
+    //     numInstancesMade++;
+    //
+    //     return new Posting(id);
+    // }
 
     // Why is this private?
     private Posting getPostingFromDatabase(int id) {
