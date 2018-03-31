@@ -62,7 +62,7 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 	public boolean addPosting(Posting post) {
 
 		String sql_query = String.format(
-				"INSERT INTO %s (title, description, submitter, location) values ('%s' '%s' '%s', '%s')",
+				"INSERT INTO %s (title, description, submitter, location) values ('%s', '%s', '%s', '%s')",
 				post.getTitle(), post.getDescription(), post.getAssociatedUsername(), post.getLocation());
 
 		return this.updateQuery(sql_query);
