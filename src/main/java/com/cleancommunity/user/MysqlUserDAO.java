@@ -9,7 +9,7 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 
 	private static final String TABLE_NAME = "users";
 
-	private User createUserFromHashMap(HashMap<String, Object> row) {
+	private static User createUserFromHashMap(HashMap<String, Object> row) {
 
 		int userId = (int) row.get("id");
 		String username = row.get("username").toString();

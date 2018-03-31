@@ -5,7 +5,7 @@ import java.util.List;
 public interface PostingDAO {
 
 	List<Posting> getPostings();
-	Posting getPosting(int postingId);
+	Posting getPostingById(int postingId);
 	boolean addPosting(Posting post);
 	boolean updatePosting(Posting post);
 	boolean deletePosting(Posting post);
