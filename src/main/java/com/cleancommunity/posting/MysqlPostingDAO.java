@@ -1,6 +1,7 @@
 package com.cleancommunity.posting;
 
 import com.cleancommunity.misc.MysqlDAO;
+import com.cleancommunity.user.User;
 
 import java.util.*;
 
@@ -8,7 +9,7 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 
 	private static final String TABLE_NAME = "postings";
 
-	private Posting createPostingFromHashMap(HashMap<String, Object> row) {
+	private static Posting createPostingFromHashMap(HashMap<String, Object> row) {
 
 		int postingId = (int) row.get("id");
 		String title = row.get("title").toString();
@@ -33,9 +34,25 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 		return postingsList;
 	}
 
+	public List<Posting> getPostingsByUser(User user) {
+
+		List<Posting> userPostings = new ArrayList<>();
+		String sql_query = String.format(
+				"SELECT * FROM %s WHERE submitter = '%s'",
+				TABLE_NAME, user.getUsername());
+		List<HashMap<String, Object>> list = this.getQuery(sql_query);
+
+		for (HashMap<String, Object> row : list) {
+			userPostings.add(createPostingFromHashMap(row));
+		}
+
+		return userPostings;
+	}
+
 	public Posting getPostingById(int postingId) {
 
-		String sql_query = String.format("SELECT * FROM %s WHERE id = %d",
+		String sql_query = String.format(
+				"SELECT * FROM %s WHERE id = %d",
 				TABLE_NAME, postingId);
 		HashMap<String, Object> postingElements = this.getQuery(sql_query).get(0);
 
