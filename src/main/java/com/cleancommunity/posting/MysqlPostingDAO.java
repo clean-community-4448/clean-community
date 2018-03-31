@@ -33,20 +33,19 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 		return postingsList;
 	}
 
-	public Posting getPosting(int postingId) {
+	public Posting getPostingById(int postingId) {
 
 		String sql_query = String.format("SELECT * FROM %s WHERE id = %d",
 				TABLE_NAME, postingId);
 		HashMap<String, Object> postingElements = this.getQuery(sql_query).get(0);
 
-		// TODO: Create the com.cleancommunity.posting here
-		return new Posting();
+		return createPostingFromHashMap(postingElements);
 	}
 
 	public boolean addPosting(Posting post) {
 
 		String sql_query = String.format(
-				"INSERT INTO %s (title, description, submitter, location) values (%d \"%s\" \"%s\", %f, %f",
+				"INSERT INTO %s (title, description, submitter, location) values ('%s' '%s' '%s', '%s')",
 				post.getTitle(), post.getDescription(), post.getAssociatedUsername(), post.getLocation());
 
 		return this.updateQuery(sql_query);
@@ -59,8 +58,12 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 
 
 	public boolean deletePosting(Posting post) {
-		// TODO: Write deletePosting
-		return false;
+
+		String sql_query = String.format(
+				"DELETE FROM %s WHERE id = %d",
+				TABLE_NAME, post.getId());
+
+		return this.updateQuery(sql_query);
 	}
 
 	public static void main(String[] args) {
@@ -69,8 +72,9 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 
 		// Get postings
 		List<Posting> postings = mysql.getPostings();
-		for (Posting posting : postings) {
-			System.out.println(posting.getAssociatedUsername());
+		for (Posting post : postings) {
+			System.out.println(post);
 		}
+
 	}
 }

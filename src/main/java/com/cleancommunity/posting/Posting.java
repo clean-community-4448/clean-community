@@ -6,26 +6,27 @@ public class Posting {
     private String title;
     private String description;
     private String associatedUsername;
+    private String location;
     private boolean accepted;
     private boolean completed;
-    private String location;
     private boolean flagged;
 
+    // Used for creating posting from database
+    Posting(int id, String title, String description, String submitter, String location, Boolean accepted) {
+
+        setId(id);
+        setTitle(title);
+        setDescription(description);
+        setAssociatedUsername(submitter);
+        setLocation(location);
+        setAccepted(accepted);
+    }
 
     Posting(String request, int id) {
 
         // API needs to be defined
 
         this.id = id;
-    }
-
-    Posting(int id, String title, String description, String submitter, String location, Boolean accepted) {
-
-        setTitle(title);
-        setDescription(description);
-        setAssociatedUsername(submitter);
-        setLocation(location);
-        setAccepted(accepted);
     }
 
     Posting() {
@@ -104,6 +105,13 @@ public class Posting {
 
     public void setFlagged(boolean flagged) {
         this.flagged = flagged;
+    }
+
+    public String toString() {
+        String returnStr = String.format("%d %s %s %s %s %b",
+                this.id, this.title, this.description, this.associatedUsername, this.location, this.accepted);
+
+        return returnStr;
     }
 }
 
