@@ -1,31 +1,35 @@
 package com.cleancommunity.posting;
 
 import com.cleancommunity.misc.Response;
+import com.cleancommunity.user.Admin;
+import com.cleancommunity.user.User;
+import com.cleancommunity.user.UserFactory;
+import com.cleancommunity.user.Volunteer;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class PostingController {
-//    private com.cleancommunity.com.cleancommunity.posting.PostingDAO postingDAO = new com.cleancommunity.com.cleancommunity.posting.PostingDAO();
-//    private com.cleancommunity.com.cleancommunity.posting.PostingFactory postingFactory = new com.cleancommunity.com.cleancommunity.posting.PostingFactory();
-//    private com.cleancommunity.com.cleancommunity.user.UserFactory userFactory = new com.cleancommunity.com.cleancommunity.user.UserFactory();
+    private PostingFactory postingFactory = new PostingFactory();
+    private UserFactory userFactory = new UserFactory();
 
     @RequestMapping(value = "/postings/", method = RequestMethod.POST)
     public Response newPosting(@RequestParam(value="request") String request) {
-        // create new com.cleancommunity.posting
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user com.cleancommunity.user = userFactory.createUserByRequest(request);
-//
-//        if (!(com.cleancommunity.user instanceof com.cleancommunity.com.cleancommunity.user.Volunteer)) {
-//            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
-//        }
-//
-//        com.cleancommunity.com.cleancommunity.posting.com.cleancommunity.com.cleancommunity.posting com.cleancommunity.posting = postingFactory.createPostingByRequest(request);
-//
-//        if (!((com.cleancommunity.com.cleancommunity.user.Volunteer) com.cleancommunity.user.addPosting(com.cleancommunity.posting))) {
-//            return com.cleancommunity.misc.Response.getServerErrorResponse();
-//        }
+        // create new posting
+        User user = userFactory.createUserByRequest(request);
+
+        if (!(user instanceof Volunteer)) {
+            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
+        }
+
+        Posting posting = postingFactory.createPostingByRequest(request);
+
+        Volunteer volunteer = (Volunteer) user;
+
+        if (!volunteer.addPosting(posting)) {
+            return com.cleancommunity.misc.Response.getServerErrorResponse();
+        }
 
         return Response.getSuccessResponse();
     }
@@ -33,66 +37,64 @@ public class PostingController {
     @RequestMapping(value = "/postings/", method = RequestMethod.GET)
     public List<Posting> getAllPostings(@RequestParam(value="request") String request) {
         // get all users
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user com.cleancommunity.user = userFactory.createUserByRequest(request);
-//        return com.cleancommunity.user.getAllPostings();
-        return new ArrayList<>(); // TEMP
+        User user = userFactory.createUserByRequest(request);
+        return user.getAllPostings();
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.GET)
     public Posting getPosting(@PathVariable int id, @RequestParam(value="request") String request) {
-        // get specific com.cleancommunity.posting
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user com.cleancommunity.user = userFactory.createUserByRequest(request);
-//        return com.cleancommunity.user.getPosting(id);
-        return new Posting(); // TEMP
+        // get specific posting
+        User user = userFactory.createUserByRequest(request);
+        return user.getPosting(id);
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.DELETE)
     public Response deletePosting(@RequestParam(value="request") String request) {
-        // delete specific com.cleancommunity.posting
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user com.cleancommunity.user = userFactory.createUserByRequest(request);
-//
-//        if (!(com.cleancommunity.user instanceof com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin)) {
-//            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
-//        }
-//
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin admin = (com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin)com.cleancommunity.user;
-//
-//        com.cleancommunity.com.cleancommunity.posting.com.cleancommunity.com.cleancommunity.posting com.cleancommunity.posting = postingFactory.createPostingByRequest(request);
-//
-//        if (!(admin.removePosting(com.cleancommunity.posting))) {
-//            com.cleancommunity.misc.Response.getServerErrorResponse();
-//        }
+        // delete specific posting
+        User user = userFactory.createUserByRequest(request);
+
+        if (!(user instanceof Admin)) {
+            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
+        }
+
+        Admin admin = (Admin) user;
+
+        Posting posting = postingFactory.createPostingByRequest(request);
+
+        if (!(admin.removePosting(posting))) {
+            com.cleancommunity.misc.Response.getServerErrorResponse();
+        }
         return Response.getSuccessResponse();
     }
 
     @RequestMapping(value = "/flag/{id}", method = RequestMethod.PUT)
     public Response flagPosting(@PathVariable int id, @RequestParam(value="request") String request) {
-        // report a specific com.cleancommunity.posting
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user com.cleancommunity.user = userFactory.createUserByRequest(request);
-//        com.cleancommunity.com.cleancommunity.posting.com.cleancommunity.com.cleancommunity.posting com.cleancommunity.posting = postingFactory.createPostingById(id);
-//
-//        if (!com.cleancommunity.user.flagPosting(com.cleancommunity.posting)) {
-//            return com.cleancommunity.misc.Response.getServerErrorResponse();
-//        }
+        // report a specific posting
+        User user = userFactory.createUserByRequest(request);
+        Posting posting = user.getPosting(id);
+
+        if (user.flagPosting(posting)) {
+            return com.cleancommunity.misc.Response.getServerErrorResponse();
+        }
         return Response.getSuccessResponse();
     }
 
     @RequestMapping(value = "/unreport/{id}", method = RequestMethod.PUT)
     public Response unreportPosting(@PathVariable int id, @RequestParam(value="request") String request) {
-        // unreport a specific com.cleancommunity.posting
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user com.cleancommunity.user = userFactory.createUserByRequest(request);
-//
-//        if (!(com.cleancommunity.user instanceof com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin)) {
-//            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
-//        }
-//
-//        com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin admin = (com.cleancommunity.com.cleancommunity.user.com.cleancommunity.com.cleancommunity.user.Admin)com.cleancommunity.user;
-//
-//        com.cleancommunity.com.cleancommunity.posting.com.cleancommunity.com.cleancommunity.posting com.cleancommunity.posting = postingFactory.createPostingById(id);
-//
-//        if (!admin.allowPosting(com.cleancommunity.posting)) {
-//            return com.cleancommunity.misc.Response.getServerErrorResponse();
-//        }
+        // unreport a specific posting
+        User user = userFactory.createUserByRequest(request);
+
+        if (!(user instanceof Admin)) {
+            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
+        }
+
+        Admin admin = (Admin) user;
+
+        Posting posting = admin.getPosting(id);
+
+        if (!admin.allowPosting(posting)) {
+            return com.cleancommunity.misc.Response.getServerErrorResponse();
+        }
         return Response.getSuccessResponse();
     }
 }
