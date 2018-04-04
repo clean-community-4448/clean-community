@@ -23,6 +23,11 @@ public abstract class User {
         posting.setFlagged(true);
         return User.postingDAO.updatePosting(posting);
     }
+
+    public Posting getPosting(int postingId) {
+        return User.postingDAO.getPostingById(postingId);
+    }
+
     public void setUsername(String user){
         username = user;
     }
