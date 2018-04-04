@@ -3,36 +3,29 @@ package com.cleancommunity.posting;
 public class PostingFactory
 {
     private int numInstancesMade;
+    private PostingDAO postingDAO;
 
     PostingFactory() {
 
-        // Query database to get number of postings
+        // TODO Query database to get number of postings instead
         this.numInstancesMade = 0;
+        this.postingDAO = new MysqlPostingDAO();
 
     }
 
     public Posting createPostingByRequest(String request) {
 
+        int postingId = extractPostingIdFromRequest(request);
+        Posting posting = postingDAO.getPostingById(postingId);
+
         numInstancesMade++;
-        Posting posting = new Posting(request, numInstancesMade);
 
         return posting;
     }
 
-    // public Posting createPostingById(int id) {
-    //
-    //     Posting posting = new Posting(id);
-    //     numInstancesMade++;
-    //
-    //     return new Posting(id);
-    // }
-
-    // Why is this private?
-    private Posting getPostingFromDatabase(int id) {
-
-        // Querying from database will be next milestone
-
-        return null;
+    private int extractPostingIdFromRequest(String request) {
+        // let's do some nasty string searching here instead of parsing json
+        return 0;
     }
 
 }
