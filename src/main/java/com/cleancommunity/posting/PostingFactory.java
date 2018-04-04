@@ -5,7 +5,7 @@ public class PostingFactory
     private int numInstancesMade;
     private PostingDAO postingDAO;
 
-    PostingFactory() {
+    public PostingFactory() {
 
         // TODO Query database to get number of postings instead
         this.numInstancesMade = 0;

@@ -4,7 +4,7 @@ public class UserFactory {
     private int numInstancesMade;
     private UserDAO userDAO;
 
-    UserFactory() {
+    public UserFactory() {
         // TODO Query database to get number of postings instead
         this.numInstancesMade = 0;
         this.userDAO = new MysqlUserDAO();
@@ -19,7 +19,7 @@ public class UserFactory {
         return user;
     }
 
-    public User createUser(String uname, String pass, String fname, String lname, int id, Boolean admin) {
+    public static User createUser(String uname, String pass, String fname, String lname, int id, Boolean admin) {
 
         if (admin) {
            return new Admin(uname, pass, fname, lname, id);
