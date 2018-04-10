@@ -106,9 +106,29 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		}
 	}
 
-	// TODO: Wat dis function gonna do
 	public Boolean updateUser(User user) {
+		/*
+			UPDATE users
+			SET firstname = 'something',
+				lastname = 'somethingElse'
+			WHERE username = this.username
+				AND password = this.password;
 
+			private int projectsCompleted;
+    		private int projectsInProgress;
+    		private int projectsPosted;
+		 */
+
+		if (user instanceof Volunteer) {
+			String sql_query = String.format(
+					"UPDATE %s SET %s = %s, %s = %s, %s = %s WHERE username = \"%s\" AND password = \"%s\"",
+					TABLE_NAME, "projectsCompleted", ((Volunteer)user).getProjectsCompleted(),
+					"projectsInProgress", ((Volunteer)user).getProjectsCompleted(), "projectsPosted",
+					((Volunteer)user).getProjectsPosted(), user.getUsername(), user.getPassword());
+
+			// Returns true if query is valid and username is unique, otherwise false
+			return this.updateQuery(sql_query);
+		}
 		return true;
 	}
 }
