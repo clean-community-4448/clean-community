@@ -29,7 +29,7 @@ public class Posting {
         this.id = id;
     }
 
-    Posting() {
+    public Posting() {
 
         // This constructor should be removed after development.
         // It requires the com.cleancommunity.user update the id at a later date ...

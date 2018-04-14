@@ -1,6 +1,7 @@
 package com.cleancommunity.user;
 
 import com.cleancommunity.misc.MysqlDAO;
+import com.cleancommunity.posting.Posting;
 
 import java.util.HashMap;
 import java.util.*;
@@ -71,10 +72,22 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		// Returns true if query is valid and username exists
 		return this.updateQuery(sql_query);
 	}
+	public Boolean updateUser(User user) {
+		if (user instanceof Volunteer) {
+			String sql_query = String.format(
+					"UPDATE %s SET %s = %s, %s = %s, %s = %s WHERE username = \"%s\" AND password = \"%s\"",
+					TABLE_NAME, "completed", ((Volunteer)user).getProjectsCompleted(),
+					"inProgress", ((Volunteer)user).getProjectsCompleted(), "posted",
+					((Volunteer)user).getProjectsPosted(), user.getUsername(), user.getPassword());
+
+			// Returns true if query is valid and username is unique, otherwise false
+			return this.updateQuery(sql_query);
+		}
+		return true;
+	}
 
 	public static void main(String[] args) {
 		MysqlUserDAO mysql = new MysqlUserDAO();
-
 		User darf = new Volunteer("Darfy", "supersecret","d", "f", 99);
 
 		// Add a com.cleancommunity.user
@@ -92,10 +105,15 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		// Get list of all users
 		List<User> userList = mysql.getUsers();
 		for (User user : userList) {
-			if (user instanceof Volunteer) {System.out.println("USER:");}
+			if (user instanceof Volunteer) {
+				System.out.println("USER:");
+				System.out.println(" Completed: " + ((Volunteer)user).getProjectsCompleted());
+				System.out.println("InProgress: " + ((Volunteer)user).getProjectsInProgress());
+				System.out.println("    Posted: " + ((Volunteer)user).getProjectsPosted());
+			}
 			else {System.out.println("ADMIN:");}
-			System.out.println("Username: " + user.getUsername());
-			System.out.println("      ID: " + user.getId());
+			System.out.println("  Username: " + user.getUsername());
+			System.out.println("        ID: " + user.getId());
 			System.out.println();
 		}
 
@@ -104,31 +122,18 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		if (t2nerb instanceof Admin) {
 			System.out.println(t2nerb.getUsername() + " has da power");
 		}
-	}
-
-	public Boolean updateUser(User user) {
-		/*
-			UPDATE users
-			SET firstname = 'something',
-				lastname = 'somethingElse'
-			WHERE username = this.username
-				AND password = this.password;
-
-			private int projectsCompleted;
-    		private int projectsInProgress;
-    		private int projectsPosted;
-		 */
-
-		if (user instanceof Volunteer) {
-			String sql_query = String.format(
-					"UPDATE %s SET %s = %s, %s = %s, %s = %s WHERE username = \"%s\" AND password = \"%s\"",
-					TABLE_NAME, "projectsCompleted", ((Volunteer)user).getProjectsCompleted(),
-					"projectsInProgress", ((Volunteer)user).getProjectsCompleted(), "projectsPosted",
-					((Volunteer)user).getProjectsPosted(), user.getUsername(), user.getPassword());
-
-			// Returns true if query is valid and username is unique, otherwise false
-			return this.updateQuery(sql_query);
-		}
-		return true;
+		Posting post = new Posting();
+		System.out.println();
+		System.out.println("Volunteer: Barklin");
+		User barklin = mysql.getUserByUsername("barklin");
+		((Volunteer)barklin).addPosting(post);
+		((Volunteer)barklin).acceptPosting(post);
+		System.out.println("After posting: # of projects posted: " + ((Volunteer)barklin).getProjectsPosted());
+		System.out.println("After posting: # of projects in progress: " + ((Volunteer)barklin).getProjectsInProgress());
+		System.out.println("After posting: # of projects completed: " + ((Volunteer)barklin).getProjectsCompleted());
+		((Volunteer)barklin).completePosting(post);
+		System.out.println("After Completing: # of projects posted: " + ((Volunteer)barklin).getProjectsPosted());
+		System.out.println("After Completing: # of projects in Progress: " + ((Volunteer)barklin).getProjectsInProgress());
+		System.out.println("After Completing: # of projects completed: " + ((Volunteer)barklin).getProjectsCompleted());
 	}
 }
