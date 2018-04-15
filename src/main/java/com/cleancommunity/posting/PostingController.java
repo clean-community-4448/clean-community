@@ -11,23 +11,19 @@ import java.util.List;
 
 @RestController
 public class PostingController {
-    private PostingFactory postingFactory = new PostingFactory();
     private UserFactory userFactory = new UserFactory();
     private PostingDAO postingDAO = new MysqlPostingDAO();
 
     @RequestMapping(value = "/postings/", method = RequestMethod.POST)
-    public Response newPosting(@RequestParam(value="request") String request) {
-        User user = userFactory.createUserByRequest(request);
+    public Response newPosting( @RequestBody Posting newPosting) {
+
+        User user = userFactory.createUserByUsername(newPosting.getAssociatedUsername());
 
         if (!(user instanceof Volunteer)) {
             return Response.getBadPermissionsResponse();
         }
 
-        Posting posting = postingFactory.createPostingByRequest(request);
-
-        Volunteer volunteer = (Volunteer) user;
-
-        if (!postingDAO.addPosting(posting)) {
+        if (!postingDAO.addPosting(newPosting)) {
             return Response.getServerErrorResponse();
         }
 
@@ -38,18 +34,18 @@ public class PostingController {
     }
 
     @RequestMapping(value = "/postings/", method = RequestMethod.GET)
-    public List<Posting> getAllPostings(@RequestParam(value="request") String request) {
+    public List<Posting> getAllPostings() {
         return postingDAO.getPostings();
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.GET)
-    public Posting getPosting(@PathVariable int id, @RequestParam(value="request") String request) {
+    public Posting getPosting(@PathVariable int id) {
         return postingDAO.getPostingById(id);
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.DELETE)
-    public Response deletePosting(@PathVariable int id, @RequestParam(value="request") String request) {
-        User user = userFactory.createUserByRequest(request);
+    public Response deletePosting(@PathVariable int id, @RequestParam(value="username") String username) {
+        User user = userFactory.createUserByUsername(username);
 
         if (!(user instanceof Admin)) {
             return Response.getBadPermissionsResponse();
@@ -64,9 +60,8 @@ public class PostingController {
     }
 
     @RequestMapping(value = "/flag/{id}", method = RequestMethod.PUT)
-    public Response flagPosting(@PathVariable int id, @RequestParam(value="request") String request) {
+    public Response flagPosting(@PathVariable int id) {
         // report a specific posting
-        User user = userFactory.createUserByRequest(request);
         Posting posting = postingDAO.getPostingById(id);
 
         posting.setFlagged(true);
@@ -78,8 +73,8 @@ public class PostingController {
     }
 
     @RequestMapping(value = "/unreport/{id}", method = RequestMethod.PUT)
-    public Response unreportPosting(@PathVariable int id, @RequestParam(value="request") String request) {
-        User user = userFactory.createUserByRequest(request);
+    public Response unreportPosting(@PathVariable int id, @RequestParam(value="username") String username) {
+        User user = userFactory.createUserByUsername(username);
 
         if (!(user instanceof Admin)) {
             return Response.getBadPermissionsResponse();

@@ -1,5 +1,6 @@
 package com.cleancommunity.posting;
 
+
 public class Posting {
 
     private int id;
@@ -11,8 +12,9 @@ public class Posting {
     private boolean completed;
     private boolean flagged;
 
-    // Used for creating posting from database
-    Posting(int id, String title, String description, String submitter, String location,
+    private Posting() {}
+
+    public Posting(int id, String title, String description, String submitter, String location,
             Boolean accepted, Boolean completed, Boolean flagged) {
 
         setId(id);
