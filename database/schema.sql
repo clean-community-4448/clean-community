@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS postings (
     submitter   varchar(20) NOT NULL,
     location    varchar(40) NOT NULL,
     accepted    boolean NOT NULL DEFAULT 0
+    completed   boolean NOT NULL DEFAULT 0
     flagged     boolean NOT NULL DEFAULT 0
 );
 

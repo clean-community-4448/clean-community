@@ -17,8 +17,10 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 		String submitter = row.get("submitter").toString();
 		String location = row.get("location").toString();
 		Boolean accepted = (Boolean) row.get("accepted");
+		Boolean completed = (Boolean) row.get("completed");
+		Boolean flagged = (Boolean) row.get("flagged");
 
-		return new Posting(postingId, title, description, submitter, location, accepted);
+		return new Posting(postingId, title, description, submitter, location, accepted, completed, flagged);
 	}
 
 	public List<Posting> getPostings() {
@@ -71,9 +73,9 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 	public boolean updatePosting(Posting post) {
 		String sqlQuery = String.format(
 				"UPDATE %s SET title = '%s', description = '%s', submitter = '%s', location = '%s', accepted = %d, " +
-						"flagged = %d WHERE id = %d",
+						"completed = '%d', flagged = %d WHERE id = %d",
 				TABLE_NAME, post.getTitle(), post.getDescription(), post.getAssociatedUsername(), post.getLocation(), post.isAccepted(),
-				post.isFlagged(), post.getId()
+				post.isCompleted(), post.isFlagged(), post.getId()
 		);
 		return this.updateQuery(sqlQuery);
 	}

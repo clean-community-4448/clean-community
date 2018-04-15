@@ -12,7 +12,8 @@ public class Posting {
     private boolean flagged;
 
     // Used for creating posting from database
-    Posting(int id, String title, String description, String submitter, String location, Boolean accepted) {
+    Posting(int id, String title, String description, String submitter, String location,
+            Boolean accepted, Boolean completed, Boolean flagged) {
 
         setId(id);
         setTitle(title);
@@ -20,28 +21,10 @@ public class Posting {
         setAssociatedUsername(submitter);
         setLocation(location);
         setAccepted(accepted);
+        setCompleted(completed);
+        setFlagged(flagged);
     }
 
-    Posting(String request, int id) {
-
-        // API needs to be defined
-
-        this.id = id;
-    }
-
-    public Posting() {
-
-        // This constructor should be removed after development.
-        // It requires the com.cleancommunity.user update the id at a later date ...
-    }
-
-
-    public boolean isValid() {
-
-        // What determines if a com.cleancommunity.posting is valid?
-
-        return true;
-    }
 
     public int getId() {
         return id;
