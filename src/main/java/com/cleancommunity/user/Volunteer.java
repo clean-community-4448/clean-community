@@ -31,16 +31,7 @@ public class Volunteer extends User{
         projectsInProgress = 0;
         projectsPosted = 0;
     }
-    public boolean addPosting(Posting post){
-        if (User.postingDAO.addPosting(post)) {
-            projectsPosted++;
-            if (User.userDAO.updateUser(this)){
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
+
     public boolean acceptPosting(Posting post){
         post.setAccepted(true);
         if (User.postingDAO.updatePosting(post)) {

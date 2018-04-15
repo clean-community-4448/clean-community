@@ -69,8 +69,13 @@ public class MysqlPostingDAO extends MysqlDAO implements PostingDAO {
 	}
 
 	public boolean updatePosting(Posting post) {
-		// TODO: Write updatePosting
-		return true;
+		String sqlQuery = String.format(
+				"UPDATE %s SET title = '%s', description = '%s', submitter = '%s', location = '%s', accepted = %d, " +
+						"flagged = %d WHERE id = %d",
+				TABLE_NAME, post.getTitle(), post.getDescription(), post.getAssociatedUsername(), post.getLocation(), post.isAccepted(),
+				post.isFlagged(), post.getId()
+		);
+		return this.updateQuery(sqlQuery);
 	}
 
 

@@ -126,12 +126,9 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		System.out.println();
 		System.out.println("Volunteer: Barklin");
 		User barklin = mysql.getUserByUsername("barklin");
-		((Volunteer)barklin).addPosting(post);
-		((Volunteer)barklin).acceptPosting(post);
 		System.out.println("After posting: # of projects posted: " + ((Volunteer)barklin).getProjectsPosted());
 		System.out.println("After posting: # of projects in progress: " + ((Volunteer)barklin).getProjectsInProgress());
 		System.out.println("After posting: # of projects completed: " + ((Volunteer)barklin).getProjectsCompleted());
-		((Volunteer)barklin).completePosting(post);
 		System.out.println("After Completing: # of projects posted: " + ((Volunteer)barklin).getProjectsPosted());
 		System.out.println("After Completing: # of projects in Progress: " + ((Volunteer)barklin).getProjectsInProgress());
 		System.out.println("After Completing: # of projects completed: " + ((Volunteer)barklin).getProjectsCompleted());
