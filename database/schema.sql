@@ -7,7 +7,10 @@ CREATE TABLE IF NOT EXISTS users (
     id          int NOT NULL UNIQUE AUTO_INCREMENT,
     firstname   varchar(20) NOT NULL DEFAULT '',
     lastname    varchar(20) NOT NULL DEFAULT '',
-    is_admin    boolean NOT NULL DEFAULT 0
+    is_admin    boolean NOT NULL DEFAULT 0,
+    inProgress  int,
+    completed   int,
+    posted      int
 );
 
 CREATE TABLE IF NOT EXISTS postings (
