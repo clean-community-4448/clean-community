@@ -19,7 +19,9 @@ CREATE TABLE IF NOT EXISTS postings (
     description varchar(1000) NOT NULL,
     submitter   varchar(20) NOT NULL,
     location    varchar(40) NOT NULL,
-    accepted    boolean NOT NULL DEFAULT 0
+    accepted    boolean NOT NULL DEFAULT 0,
+    completed   boolean NOT NULL DEFAULT 0,
+    flagged     boolean NOT NULL DEFAULT 0
 );
 
 -- For development purposes

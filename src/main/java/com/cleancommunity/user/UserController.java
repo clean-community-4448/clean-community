@@ -14,38 +14,38 @@ public class UserController {
     private UserDAO userDAO = new MysqlUserDAO();
     private UserFactory userFactory = new UserFactory();
 
-    @RequestMapping(value = "/users/", method = RequestMethod.POST)
-    public Response newUser(@RequestParam(value="request") String request) {
-        // create new user
-        User newUser = userFactory.createUserByRequest(request);
-        if (!userDAO.addUser(newUser)) {
-            com.cleancommunity.misc.Response.getServerErrorResponse();
-        }
-
-        return Response.getSuccessResponse();
-    }
-
-    @RequestMapping(value = "/users/", method = RequestMethod.GET)
-    public List<User> getAllUsers(@RequestParam(value="request") String request) {
-        // get all users
-        return userDAO.getUsers();
-    }
-
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public User getUser(@RequestParam(value="request") String request) {
-        // get specific user
-        return userFactory.createUserByRequest(request);
-    }
-
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public Response deleteUser(@RequestParam(value="request") String request) {
-        // delete user
-        User user = userFactory.createUserByRequest(request);
-
-        if (!userDAO.deleteUser(user)) {
-            com.cleancommunity.misc.Response.getServerErrorResponse();
-        }
-
-        return Response.getSuccessResponse();
-    }
+//    @RequestMapping(value = "/users/", method = RequestMethod.POST)
+//    public Response newUser(@RequestParam(value="request") String request) {
+//        // create new user
+//        User newUser = userFactory.createUserByRequest(request);
+//        if (!userDAO.addUser(newUser)) {
+//            com.cleancommunity.misc.Response.getServerErrorResponse();
+//        }
+//
+//        return Response.getSuccessResponse();
+//    }
+//
+//    @RequestMapping(value = "/users/", method = RequestMethod.GET)
+//    public List<User> getAllUsers(@RequestParam(value="request") String request) {
+//        // get all users
+//        return userDAO.getUsers();
+//    }
+//
+//    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+//    public User getUser(@RequestParam(value="request") String request) {
+//        // get specific user
+//        return userFactory.createUserByRequest(request);
+//    }
+//
+//    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+//    public Response deleteUser(@RequestParam(value="request") String request) {
+//        // delete user
+//        User user = userFactory.createUserByRequest(request);
+//
+//        if (!userDAO.deleteUser(user)) {
+//            com.cleancommunity.misc.Response.getServerErrorResponse();
+//        }
+//
+//        return Response.getSuccessResponse();
+//    }
 }
