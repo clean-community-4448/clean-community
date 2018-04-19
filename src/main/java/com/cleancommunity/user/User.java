@@ -9,6 +9,7 @@ import java.util.*;
 public abstract class User {
 
     public static PostingDAO postingDAO = new MysqlPostingDAO();
+    public static UserDAO userDAO = new MysqlUserDAO();
 
     public int userId;
     private String username;
@@ -16,16 +17,9 @@ public abstract class User {
     private String firstName;
     private String lastName;
 
-    public List<Posting> getAllPostings(){
-        return User.postingDAO.getPostings();
-    }
     public boolean flagPosting(Posting posting){
         posting.setFlagged(true);
         return User.postingDAO.updatePosting(posting);
-    }
-
-    public Posting getPosting(int postingId) {
-        return User.postingDAO.getPostingById(postingId);
     }
 
     public void setUsername(String user){

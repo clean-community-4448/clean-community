@@ -31,20 +31,15 @@ public class Volunteer extends User{
         projectsInProgress = 0;
         projectsPosted = 0;
     }
-    public boolean addPosting(Posting post){
-        if (User.postingDAO.addPosting(post)) {
-            projectsPosted++;
-            // TODO: update using UserDAO
-            return true;
-        }
-        return false;
-    }
+
     public boolean acceptPosting(Posting post){
         post.setAccepted(true);
         if (User.postingDAO.updatePosting(post)) {
             projectsInProgress++;
-            // TODO: update using UserDAO
-            return true;
+            if (User.userDAO.updateUser(this)){
+                return true;
+            }
+            return false;
         }
         return false;
     }
@@ -53,10 +48,11 @@ public class Volunteer extends User{
         if (User.postingDAO.updatePosting(post)) {
             projectsInProgress--;
             projectsCompleted++;
-            // TODO: update using UserDAO
-            return true;
+            if (User.userDAO.updateUser(this)){
+                return true;
+            }
+            return false;
         }
-
         return false;
     }
     public List<Integer> getVolunteerStatistics(){
@@ -65,6 +61,15 @@ public class Volunteer extends User{
         list.add(projectsCompleted);
         list.add(projectsPosted);
         return list;
+    }
+    public int getProjectsCompleted(){
+        return projectsCompleted;
+    }
+    public int getProjectsInProgress(){
+        return projectsInProgress;
+    }
+    public int getProjectsPosted(){
+        return projectsPosted;
     }
     public List<Volunteer> getOverallStatistics(){
         List<Volunteer> list = new ArrayList<Volunteer>();

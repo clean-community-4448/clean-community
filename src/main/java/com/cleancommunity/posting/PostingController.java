@@ -11,89 +11,80 @@ import java.util.List;
 
 @RestController
 public class PostingController {
-    private PostingFactory postingFactory = new PostingFactory();
     private UserFactory userFactory = new UserFactory();
+    private PostingDAO postingDAO = new MysqlPostingDAO();
 
     @RequestMapping(value = "/postings/", method = RequestMethod.POST)
-    public Response newPosting(@RequestParam(value="request") String request) {
-        // create new posting
-        User user = userFactory.createUserByRequest(request);
+    public Response newPosting( @RequestBody Posting newPosting) {
+
+        User user = userFactory.createUserByUsername(newPosting.getAssociatedUsername());
 
         if (!(user instanceof Volunteer)) {
-            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
+            return Response.getBadPermissionsResponse();
         }
 
-        Posting posting = postingFactory.createPostingByRequest(request);
-
-        Volunteer volunteer = (Volunteer) user;
-
-        if (!volunteer.addPosting(posting)) {
-            return com.cleancommunity.misc.Response.getServerErrorResponse();
+        if (!postingDAO.addPosting(newPosting)) {
+            return Response.getServerErrorResponse();
         }
+
+        // TODO update user's statistics here for projects posted
+        // User.userDAO.updateUser(this) <-- old code from volunteer class
 
         return Response.getSuccessResponse();
     }
 
     @RequestMapping(value = "/postings/", method = RequestMethod.GET)
-    public List<Posting> getAllPostings(@RequestParam(value="request") String request) {
-        // get all users
-        User user = userFactory.createUserByRequest(request);
-        return user.getAllPostings();
+    public List<Posting> getAllPostings() {
+        return postingDAO.getPostings();
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.GET)
-    public Posting getPosting(@PathVariable int id, @RequestParam(value="request") String request) {
-        // get specific posting
-        User user = userFactory.createUserByRequest(request);
-        return user.getPosting(id);
+    public Posting getPosting(@PathVariable int id) {
+        return postingDAO.getPostingById(id);
     }
 
     @RequestMapping(value = "/postings/{id}", method = RequestMethod.DELETE)
-    public Response deletePosting(@RequestParam(value="request") String request) {
-        // delete specific posting
-        User user = userFactory.createUserByRequest(request);
+    public Response deletePosting(@PathVariable int id, @RequestParam(value="username") String username) {
+        User user = userFactory.createUserByUsername(username);
 
         if (!(user instanceof Admin)) {
-            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
+            return Response.getBadPermissionsResponse();
         }
 
-        Admin admin = (Admin) user;
+        Posting postingToDelete = postingDAO.getPostingById(id);
 
-        Posting posting = postingFactory.createPostingByRequest(request);
-
-        if (!(admin.removePosting(posting))) {
-            com.cleancommunity.misc.Response.getServerErrorResponse();
+        if (!postingDAO.deletePosting(postingToDelete)) {
+            Response.getServerErrorResponse();
         }
         return Response.getSuccessResponse();
     }
 
     @RequestMapping(value = "/flag/{id}", method = RequestMethod.PUT)
-    public Response flagPosting(@PathVariable int id, @RequestParam(value="request") String request) {
+    public Response flagPosting(@PathVariable int id) {
         // report a specific posting
-        User user = userFactory.createUserByRequest(request);
-        Posting posting = user.getPosting(id);
+        Posting posting = postingDAO.getPostingById(id);
 
-        if (user.flagPosting(posting)) {
-            return com.cleancommunity.misc.Response.getServerErrorResponse();
+        posting.setFlagged(true);
+
+        if (!postingDAO.updatePosting(posting)) {
+            return Response.getServerErrorResponse();
         }
         return Response.getSuccessResponse();
     }
 
     @RequestMapping(value = "/unreport/{id}", method = RequestMethod.PUT)
-    public Response unreportPosting(@PathVariable int id, @RequestParam(value="request") String request) {
-        // unreport a specific posting
-        User user = userFactory.createUserByRequest(request);
+    public Response unreportPosting(@PathVariable int id, @RequestParam(value="username") String username) {
+        User user = userFactory.createUserByUsername(username);
 
         if (!(user instanceof Admin)) {
-            return com.cleancommunity.misc.Response.getBadPermissionsResponse();
+            return Response.getBadPermissionsResponse();
         }
 
-        Admin admin = (Admin) user;
+        Posting posting = postingDAO.getPostingById(id);
+        posting.setFlagged(false);
 
-        Posting posting = admin.getPosting(id);
-
-        if (!admin.allowPosting(posting)) {
-            return com.cleancommunity.misc.Response.getServerErrorResponse();
+        if (!postingDAO.updatePosting(posting)) {
+            return Response.getServerErrorResponse();
         }
         return Response.getSuccessResponse();
     }

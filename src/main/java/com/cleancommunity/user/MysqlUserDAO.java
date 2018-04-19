@@ -1,6 +1,7 @@
 package com.cleancommunity.user;
 
 import com.cleancommunity.misc.MysqlDAO;
+import com.cleancommunity.posting.Posting;
 
 import java.util.HashMap;
 import java.util.*;
@@ -71,44 +72,18 @@ public class MysqlUserDAO extends MysqlDAO implements UserDAO {
 		// Returns true if query is valid and username exists
 		return this.updateQuery(sql_query);
 	}
-
-	public static void main(String[] args) {
-		MysqlUserDAO mysql = new MysqlUserDAO();
-
-		User darf = new Volunteer("Darfy", "supersecret","d", "f", 99);
-
-		// Add a com.cleancommunity.user
-		Boolean added = mysql.addUser(darf);
-		if (!added) {
-			System.err.println("Username conflict for " + darf.getUsername());
-		}
-
-		// Delete a com.cleancommunity.user
-		Boolean deleted = mysql.deleteUser(darf);
-		if (!deleted) {
-			System.out.println("Ruh roh com.cleancommunity.user doesn't exist");
-		}
-
-		// Get list of all users
-		List<User> userList = mysql.getUsers();
-		for (User user : userList) {
-			if (user instanceof Volunteer) {System.out.println("USER:");}
-			else {System.out.println("ADMIN:");}
-			System.out.println("Username: " + user.getUsername());
-			System.out.println("      ID: " + user.getId());
-			System.out.println();
-		}
-
-		// Get a com.cleancommunity.user by username
-		User t2nerb = mysql.getUserByUsername("t2nerb");
-		if (t2nerb instanceof Admin) {
-			System.out.println(t2nerb.getUsername() + " has da power");
-		}
-	}
-
-	// TODO: Wat dis function gonna do
 	public Boolean updateUser(User user) {
+		if (user instanceof Volunteer) {
+			String sql_query = String.format(
+					"UPDATE %s SET %s = %s, %s = %s, %s = %s WHERE username = \"%s\" AND password = \"%s\"",
+					TABLE_NAME, "completed", ((Volunteer)user).getProjectsCompleted(),
+					"inProgress", ((Volunteer)user).getProjectsCompleted(), "posted",
+					((Volunteer)user).getProjectsPosted(), user.getUsername(), user.getPassword());
 
+			// Returns true if query is valid and username is unique, otherwise false
+			return this.updateQuery(sql_query);
+		}
 		return true;
 	}
+
 }
