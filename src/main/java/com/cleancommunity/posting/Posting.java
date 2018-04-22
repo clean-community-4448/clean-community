@@ -93,8 +93,9 @@ public class Posting {
     }
 
     public String toString() {
-        String returnStr = String.format("%d|%s|%s|%s|%s|%b",
-                this.id, this.title, this.description, this.associatedUsername, this.location, this.accepted);
+        String returnStr = String.format("%d|%s|%s|%s|%s|%b|%b",
+                this.id, this.title, this.description, this.associatedUsername, this.location, this.accepted,
+                this.flagged);
 
         return returnStr;
     }
